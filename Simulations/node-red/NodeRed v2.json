@@ -1,0 +1,346 @@
+[
+    {
+        "id": "a4d2a2ccd500e106",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6a080716d04bddeb",
+        "type": "serial in",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "serial": "6f654dd74dce1a9c",
+        "x": 130,
+        "y": 300,
+        "wires": [
+            [
+                "99bbd69e7d898a8a",
+                "c43cb6be06a5f236",
+                "3b3ad0280998da6d"
+            ]
+        ]
+    },
+    {
+        "id": "c9095d4aa8eba0d7",
+        "type": "ui_chart",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "group": "dd9fa2de8610170f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Internal Temperature",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 720,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c38ec78e63ad04d",
+        "type": "ui_chart",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "group": "dd9fa2de8610170f",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "Baby Temperature",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": true,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 710,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a6c1e0d77019c4df",
+        "type": "ui_gauge",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "group": "921fa284903ff9bc",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Body Temp",
+        "label": "C",
+        "format": "{{value/10}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 730,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "87bd7ba12e13936e",
+        "type": "serial out",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "serial": "6f654dd74dce1a9c",
+        "x": 1040,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "b9f2d15a7052dd1c",
+        "type": "ui_text",
+        "z": "a4d2a2ccd500e106",
+        "group": "dd9fa2de8610170f",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Alarm",
+        "format": "{{msg.payload.AA}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 710,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "c43cb6be06a5f236",
+        "type": "function",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "func": "var str = msg.payload;\nvar parts = str.split(\" \");\n//var Kp = parts[1].ToString();\nmsg.payload = {\n    Kp: parseInt(parts[1]),\n    Td: parseInt(parts[3]),\n    Ta: parseInt(parts[5]),\n    Tb: parseInt(parts[7]),\n    PP: parts[9],\n    AA: parts[11],\n    AB: parseInt(parts[13]),\n    C: parseInt(parts[15])\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 280,
+        "wires": [
+            [
+                "b9f2d15a7052dd1c",
+                "f56b448b67d62a9a"
+            ]
+        ]
+    },
+    {
+        "id": "c9a284494622e50c",
+        "type": "change",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload",
+                "pt": "msg",
+                "from": "payload.Ta",
+                "fromt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 140,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "99bbd69e7d898a8a",
+        "type": "split",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "splt": "Ta",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 330,
+        "y": 140,
+        "wires": [
+            [
+                "c9095d4aa8eba0d7"
+            ]
+        ]
+    },
+    {
+        "id": "3b3ad0280998da6d",
+        "type": "split",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "splt": "Tb",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 330,
+        "y": 200,
+        "wires": [
+            [
+                "6c38ec78e63ad04d",
+                "a6c1e0d77019c4df"
+            ]
+        ]
+    },
+    {
+        "id": "f56b448b67d62a9a",
+        "type": "ui_text",
+        "z": "a4d2a2ccd500e106",
+        "group": "921fa284903ff9bc",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Power %",
+        "format": "{{msg.payload.PP}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 700,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1fd19262a4f412ea",
+        "type": "ui_text_input",
+        "z": "a4d2a2ccd500e106",
+        "name": "",
+        "label": "Desired Temperature",
+        "tooltip": "",
+        "group": "921fa284903ff9bc",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "number",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 680,
+        "y": 380,
+        "wires": [
+            [
+                "87bd7ba12e13936e"
+            ]
+        ]
+    },
+    {
+        "id": "6f654dd74dce1a9c",
+        "type": "serial-port",
+        "serialport": "COM11",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "\\r\\n",
+        "responsetimeout": "500"
+    },
+    {
+        "id": "dd9fa2de8610170f",
+        "type": "ui_group",
+        "name": "C320A",
+        "tab": "ebefd3ca0a859068",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "921fa284903ff9bc",
+        "type": "ui_group",
+        "name": "C320B",
+        "tab": "ebefd3ca0a859068",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "ebefd3ca0a859068",
+        "type": "ui_tab",
+        "name": "Tab1",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
